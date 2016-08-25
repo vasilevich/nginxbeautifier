@@ -34,28 +34,28 @@ cp nginxbeautifier/nginxbeautifier.js /usr/bin/nginxbeautifier
 ```
 
 # How to use
-Usage: nginxbeautify [OPTION]... [FILE]...
-Description: Formats nginx conf files into a more readable format by re-indenting the lines.
-
-Mandatory arguments to long options are mandatory for short options too, Arguments are case insensitive.
--h, --help,  Show this help text.
--s, --space,  Amount of spaces to indent with, Can not be used if tabs are specified.
--t, --tabs,  Amount of tabs to indent with, Can not be used if spaces are specified.
--dj, --dontjoin, --dont-join,  if set to true, commands such as 'server' and '{' will be on a seperate line, false by default ('server {' )
--r, --recursive,  scan the whole current folder, and all sub folders recursively.
--i, --input,  The file to input, is optional if you provide a path after all the arguments.
--o, --output,  The file to output to, is optional if you provide a path after all the arguments.
--e, -ext, --extension,  The extension of the config file to look for(.conf by default).
-
+Usage: nginxbeautify [OPTION]... [FILE]...  
+Description: Formats nginx conf files into a more readable format by re-indenting the lines.  
+  
+Mandatory arguments to long options are mandatory for short options too, Arguments are case insensitive.  
+-h, --help,  Show this help text.  
+-s, --space,  Amount of spaces to indent with, Can not be used if tabs are specified.  
+-t, --tabs,  Amount of tabs to indent with, Can not be used if spaces are specified.  
+-dj, --dontjoin, --dont-join,  if set to true, commands such as 'server' and '{' will be on a seperate line, false by default ('server {' )  
+-r, --recursive,  scan the whole current folder, and all sub folders recursively.  
+-i, --input,  The file to input, is optional if you provide a path after all the arguments.  
+-o, --output,  The file to output to, is optional if you provide a path after all the arguments.  
+-e, -ext, --extension,  The extension of the config file to look for(.conf by default).  
+  
 ## Usage examples:
-(1)>nginxbeautify -s 4 -r sites-enabled/
-(2)>nginxbeautify -s 4 -r /etc/nginx/sites-enabled/
-(3)>nginxbeautify -s 4 -i /etc/nginx/sites-enabled/site.conf -o /etc/nginx/sites-enabled/newSite.conf
-(4)>nginxbeautify -s 4 -i /etc/nginx/sites-enabled/site.conf
-(5)>nginxbeautify -s 4 -i /etc/nginx/sites-enabled/*
-(6)>nginxbeautify -t 4 -i /etc/nginx/sites-enabled/*
-(7)>nginxbeautify -t 4 /etc/nginx/sites-enabled/*
-(8)>nginxbeautify -t 4 -i /etc/nginx/sites-enabled/* -o /etc/nginx/new-sites-enabled/*
+(1)>nginxbeautify -s 4 -r sites-enabled/  
+(2)>nginxbeautify -s 4 -r /etc/nginx/sites-enabled/  
+(3)>nginxbeautify -s 4 -i /etc/nginx/sites-enabled/site.conf -o /etc/nginx/sites-enabled/newSite.conf  
+(4)>nginxbeautify -s 4 -i /etc/nginx/sites-enabled/site.conf  
+(5)>nginxbeautify -s 4 -i /etc/nginx/sites-enabled/*  
+(6)>nginxbeautify -t 4 -i /etc/nginx/sites-enabled/*  
+(7)>nginxbeautify -t 4 /etc/nginx/sites-enabled/*  
+(8)>nginxbeautify -t 4 -i /etc/nginx/sites-enabled/* -o /etc/nginx/new-sites-enabled/* 
 
 
 ## Credits
