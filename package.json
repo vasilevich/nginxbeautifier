@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Nginx Configuration Beautifier",
   "main": "nginxbeautifier",
-  "bin" : {
+  "git": "git@github.com:vasilevich/nginxbeautifier.git",
+  "bin": {
     "nginxbeautifier": "nginxbeautifier"
   },
   "preferGlobal": true,
@@ -16,6 +17,21 @@
     "config",
     "server"
   ],
-  "author": "",
-  "license": "Apache-2.0"
+  "author": "Yosef <vasilevich1234@gmail.com> (https://nginxbeautifier.com)",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "nginxbeautifier"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasilevich/nginxbeautifier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vasilevich/nginxbeautifier/issues"
+  },
+  "homepage": "https://github.com/vasilevich/nginxbeautifier#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  }
 }
