@@ -5,12 +5,11 @@
   "main": "nginxbeautifier",
   "git": "git@github.com:vasilevich/nginxbeautifier.git",
   "bin": {
-    "nginxbeautifier.js": "nginxbeautifier.js",
     "nginxbeautifier": "nginxbeautifier.js"
   },
   "preferGlobal": true,
   "engines": {
-    "node": ">4.0.0"
+    "node": ">0.10.32"
   },
   "keywords": [
     "nginx",
