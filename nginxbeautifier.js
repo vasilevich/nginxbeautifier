@@ -97,6 +97,7 @@ if (!String.prototype.repeat) {
 }
 
 //required in nodejs
+
 if (!String.prototype.contains) {
     String.prototype.contains = String.prototype.includes;
 }
@@ -153,6 +154,7 @@ function extractAllPossibleText(input, seperator1, seperator2) {
         var placeHolder = "#$#%#$#placeholder" + cnt + "#$#%#$#";
         extracted[placeHolder] = seperator1 + textInBetween + seperator2;
         input = input.replace(extracted[placeHolder], placeHolder);
+        cnt++;
     }
     return {
         inputHidden: input,
