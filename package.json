@@ -1,12 +1,11 @@
 {
   "name": "nginxbeautifier",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nginx Configuration Beautifier",
   "main": "nginxbeautifier",
   "git": "git@github.com:vasilevich/nginxbeautifier.git",
   "bin": {
-  	"nginxbeautifier.js": "nginxbeautifier.js"
-  	,
+    "nginxbeautifier.js": "nginxbeautifier.js",
     "nginxbeautifier": "nginxbeautifier.js"
   },
   "preferGlobal": true,
