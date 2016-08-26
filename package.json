@@ -1,6 +1,6 @@
 {
   "name": "nginxbeautifier",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Nginx Configuration Beautifier",
   "main": "nginxbeautifier",
   "git": "git@github.com:vasilevich/nginxbeautifier.git",
@@ -33,6 +33,5 @@
     "url": "https://github.com/vasilevich/nginxbeautifier/issues"
   },
   "homepage": "https://github.com/vasilevich/nginxbeautifier#readme",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
