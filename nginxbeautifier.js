@@ -36,7 +36,6 @@ if (!String.prototype.endsWith) {
         return lastIndex !== -1 && lastIndex === position;
     };
 }
-
 if (!String.prototype.includes) {
     String.prototype.includes = function (search, start) {
         'use strict';
@@ -97,6 +96,16 @@ if (!String.prototype.repeat) {
 }
 
 //required in nodejs
+
+
+//removes element from array
+if (!Array.prototype.remove) {
+    Array.prototype.remove = function (index, item) {
+        this.splice(index, 1);
+    };
+
+}
+
 
 if (!String.prototype.contains) {
     String.prototype.contains = String.prototype.includes;
@@ -200,7 +209,8 @@ function clean_lines(configContents) {
     //trim multi lines into two
 
     for (var index = 0, newline = 0; index < splittedByLines.length; index++) {
-        if (!splittedByLines[index].trim().startsWith("#") && splittedByLines[index].trim() != "") {
+        splittedByLines[index] = splittedByLines[index].trim();
+        if (!splittedByLines[index].startsWith("#") && splittedByLines[index] != "") {
             newline = 0;
             var line = splittedByLines[index] = strip_line(splittedByLines[index]);
             if (line != "}" && line != "{") {
@@ -210,14 +220,16 @@ function clean_lines(configContents) {
                     splittedByLines.insert(index + 1, "}");
                     var l2 = strip_line(line.slice(i + 1));
                     if (l2 != "")
-                        splittedByLines.insert(index + 2, strip_line(line.slice(i + 1)));
+                        splittedByLines.insert(index + 2, l2);
                     line = splittedByLines[index];
                 }
                 var i = line.indexOf("{")
                 if (i >= 0) {
                     splittedByLines[index] = strip_line(line.slice(0, i));
                     splittedByLines.insert(index + 1, "{");
-                    splittedByLines.insert(index + 2, strip_line(line.slice(i + 1)));
+                    var l2 = strip_line(line.slice(i + 1));
+                    if (l2 != "")
+                        splittedByLines.insert(index + 2, l2);
 
                 }
             }
@@ -238,23 +250,23 @@ function clean_lines(configContents) {
 
 
 function join_opening_bracket(lines) {
-    var modified_lines, i;
-    "When opening curly bracket is in it's own line (K&R convention), it's joined with precluding line (Java).";
-    modified_lines = [];
-    for (var i = 0, length = lines.length; i < length; i++) {
-        if (i > 0 && lines[i] === "{") {
-            modified_lines[modified_lines.length - 1] += " {";
-            modified_lines.push("");
-        } else if (modified_lines.length <= 2 || !(modified_lines[modified_lines.length - 2].endsWith(" {") && lines[i] == "")) {
-            modified_lines.push(lines[i]);
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line == "{") {
+            //just make sure we don't put anything before 0
+            if (i >= 1) {
+                lines[i] = lines[i - 1] + " {";
+                if (NEWLINEAFTERBRACET&&lines.length>(i+1)&&lines[i+1].length>0)
+                    lines.insert(i+1,"");
+                lines.remove(i - 1);
+            }
         }
     }
-    return modified_lines;
+    return lines;
 }
 
-
 var INDENTATION = '\t';
-
+var NEWLINEAFTERBRACET=true;
 function perform_indentation(lines) {
     var indented_lines, current_indent, line;
     "Indents the lines according to their nesting level determined by curly brackets.";
@@ -443,7 +455,7 @@ knownArguments["-dj"] = knownArguments["--dont-join"];
 knownArguments["-ext"] = knownArguments["--extension"];
 knownArguments["-e"] = knownArguments["--extension"];
 var wasFunc = null;
-if (process.argv.length >= 2) {
+if (process.argv.length > 2) {
     for (var key in process.argv) {
         if (key >= 2) {
             var arg = process.argv[key].toLowerCase();
@@ -493,9 +505,9 @@ else {
 //lets fetch the list of all the relevant files
 var filesArr = [];
 
-for (var index=0,length=options.inputPath.length;index<length;index++) {
+for (var index = 0, length = options.inputPath.length; index < length; index++) {
     if (options.inputPath[index] != "") {
-        if ((options.inputPath[index].recursive||options.recursive) && fs.statSync(options.inputPath[index].name).isDirectory()) {
+        if ((options.inputPath[index].recursive || options.recursive) && fs.statSync(options.inputPath[index].name).isDirectory()) {
             filesArr = filesArr.concat(walkSync(options.inputPath[index].name, options.extension));
         }
         else if (fs.statSync(options.inputPath[index].name).isFile()) {
@@ -526,8 +538,8 @@ for (var index = 0, length = filesArr.length; index < length; index++) {
     //save all the contents to the file.
     //if the user didnt choose output path, then the input file is used.
     //  if (options.inputPath == options.outputPath) {
-    if(options.outputPath.length>0)
-    fs.writeFileSync(options.outputPath[0]+"/"+file, outputContents, 'utf8');
+    if (options.outputPath.length > 0)
+        fs.writeFileSync(options.outputPath[0] + "/" + file, outputContents, 'utf8');
     else
         fs.writeFileSync(file, outputContents, 'utf8');
     // }
