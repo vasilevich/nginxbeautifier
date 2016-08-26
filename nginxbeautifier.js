@@ -245,7 +245,7 @@ function join_opening_bracket(lines) {
         if (i > 0 && lines[i] === "{") {
             modified_lines[modified_lines.length - 1] += " {";
             modified_lines.push("");
-        } else if(modified_lines.length<=2||!(modified_lines[modified_lines.length - 2].endsWith(" {")&&lines[i]=="")){
+        } else if (modified_lines.length <= 2 || !(modified_lines[modified_lines.length - 2].endsWith(" {") && lines[i] == "")) {
             modified_lines.push(lines[i]);
         }
     }
@@ -253,7 +253,7 @@ function join_opening_bracket(lines) {
 }
 
 
-var INDENTATION = ' '.repeat(4);
+var INDENTATION = '\t';
 
 function perform_indentation(lines) {
     var indented_lines, current_indent, line;
@@ -351,8 +351,10 @@ var knownArguments = {
         "--space": function (number) {
             if (number == "desc")
                 return "Amount of spaces to indent with, Can not be used if tabs are specified."
-            if (isNaN(number))
+            else if (isNaN(number)) {
+                knownArguments["--space"](1);
                 return true;
+            }
             if (options.tabs > 0) {
                 console.log("Error! tabs were already defined, please choose one or the other.")
                 knownArguments["--help"]();
@@ -365,15 +367,17 @@ var knownArguments = {
         "--tabs": function (number) {
             if (number == "desc")
                 return "Amount of tabs to indent with, Can not be used if spaces are specified."
-            if (isNaN(number))
+            else if (isNaN(number)) {
+                knownArguments["--tabs"](1);
                 return true;
+            }
             if (options.spaces > 0) {
                 console.log("Error! spaces were already defined, please choose one or the other.")
                 knownArguments["--help"]();
                 process.exit();
             }
             options.tabs = parseInt(number);
-            INDENTATION = " ".repeat(options.tabs);
+            INDENTATION = "\t".repeat(options.tabs);
         },
         "--dont-join": function (input) {
             if (input == "desc")
@@ -393,8 +397,11 @@ var knownArguments = {
                 return "The file to input, is optional if you provide a path after all the arguments.";
             if (file.startsWith("-"))
                 return true;
-            if (file.endsWith("*"))
-                this["--recursive"]();
+            if (file.endsWith("*")) {
+                knownArguments["--recursive"]();
+                file=file.slice(0,file.length-1);
+                file=file.length>0?file:".";
+            }
             options.inputPath = file;
         }
         ,
@@ -403,6 +410,11 @@ var knownArguments = {
                 return "The file to output to, is optional if you provide a path after all the arguments.";
             if (file.startsWith("-"))
                 return true;
+            if (file.endsWith("*")) {
+                knownArguments["--recursive"]();
+                file=file.slice(0,file.length-1);
+                file=file.length>0?file:".";
+            }
             options.outputPath = file;
         },
         "--extension": function (ext) {
@@ -438,10 +450,10 @@ if (process.argv.length >= 2) {
                     if (argFunc(arg))
                         wasFunc = argFunc;
                 }
-                else if (wasFunc != null) {
-                    wasFunc(arg);
-                    wasFunc = null;
-                }
+            }
+            else if (!isNaN(arg) && wasFunc != null) {
+                wasFunc(arg);
+                wasFunc = null;
             }
             else {
                 //its probably a file path
@@ -483,7 +495,7 @@ else {
     filesArr.push(options.inputPath);
 }
 
-for (var index=0,length=filesArr.length;index<length;index++) {
+for (var index = 0, length = filesArr.length; index < length; index++) {
     var file = filesArr[index];
     console.log("Working on file: " + file);
     var fileContents = fs.readFileSync(file, "utf8");
