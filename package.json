@@ -35,7 +35,5 @@
   },
   "homepage": "https://github.com/vasilevich/nginxbeautifier#readme",
   "dependencies": {
-    "fs": "*",
-    "path": "*"
   }
 }
