@@ -307,8 +307,8 @@ var options = {
         tabs: 0,
         dontJoinCurlyBracet: false,
         recursive: false,
-        inputPath: ".",
-        outputPath: ".",
+        inputPath: [],
+        outputPath: [],
         extension: "conf"
 
     }
@@ -393,36 +393,40 @@ var knownArguments = {
         }
         ,
         "--input": function (file) {
+            var recursive = false;
             if (file == "desc")
                 return "The file to input, is optional if you provide a path after all the arguments.";
             if (file.startsWith("-"))
                 return true;
             if (file.endsWith("*")) {
-                knownArguments["--recursive"]();
-                file=file.slice(0,file.length-1);
-                file=file.length>0?file:".";
+                //knownArguments["--recursive"]();
+                recursive = true;
+                file = file.slice(0, file.length - 1);
+                file = file.length > 0 ? file : ".";
             }
-            options.inputPath = file;
+            options.inputPath.push({name: file, recursive: recursive});
         }
         ,
         "--output": function (file) {
+            var recursive = false;
             if (file == "desc")
                 return "The file to output to, is optional if you provide a path after all the arguments.";
             if (file.startsWith("-"))
                 return true;
             if (file.endsWith("*")) {
-                knownArguments["--recursive"]();
-                file=file.slice(0,file.length-1);
-                file=file.length>0?file:".";
+                // knownArguments["--recursive"]();
+                recursive = true;
+                file = file.slice(0, file.length - 1);
+                file = file.length > 0 ? file : ".";
             }
-            options.outputPath = file;
+            options.outputPath.push({name: file, recursive: recursive});
         },
         "--extension": function (ext) {
             if (ext == "desc")
                 return "The extension of the config file to look for(.conf by default).";
             if (ext.startsWith("-"))
                 return true;
-            options.outputPath = ext;
+            options.extension = ext;
         }
 
     }
@@ -458,7 +462,6 @@ if (process.argv.length >= 2) {
             else {
                 //its probably a file path
                 knownArguments["-i"](arg);
-                knownArguments["-o"](arg);
             }
         }
     }
@@ -468,32 +471,44 @@ else {
     knownArguments["--help"]();
     process.exit()
 }
-if (!options.recursive) {
-    if (!options.inputPath.endsWith(options.extension)) {
-        console.log("Error! folder was selected, but no recursive option has been activated.")
-        knownArguments["--help"]();
-        process.exit();
-    }
-}
-//options.outputPath.endsWith(options.extension)&&
-else if (!fs.statSync(options.outputPath).isDirectory()) {
-    console.log("Error! input is recursive(multiple files), output is a single file? this makes no sense!")
-    knownArguments["--help"]();
-    process.exit();
-}
-
+/*
+ if (!options.recursive) {
+ if (!options.inputPath.endsWith(options.extension)) {
+ console.log("Error! folder was selected, but no recursive option has been activated.")
+ knownArguments["--help"]();
+ process.exit();
+ }
+ }
+ //options.outputPath.endsWith(options.extension)&&
+ else if (!fs.statSync(options.outputPath).isDirectory()) {
+ console.log("Error! input is recursive(multiple files), output is a single file? this makes no sense!")
+ knownArguments["--help"]();
+ process.exit();
+ }
+ */
 
 //if we got up here, all seems fine
 
 
 //lets fetch the list of all the relevant files
 var filesArr = [];
-if (options.recursive) {
-    filesArr = walkSync(options.inputPath, options.extension);
+
+for (var index=0,length=options.inputPath.length;index<length;index++) {
+    if (options.inputPath[index] != "") {
+        if (options.inputPath[index].recursive && fs.statSync(options.inputPath[index].name).isDirectory()) {
+            filesArr = filesArr.concat(walkSync(options.inputPath[index].name, options.extension));
+        }
+        else if (fs.statSync(options.inputPath[index].name).isFile()) {
+            filesArr = filesArr.concat(options.inputPath[index].name);
+        }
+        else {
+            console.log("Error! folder was selected, but no recursive option(path/* or -r) has been activated.")
+            knownArguments["--help"]();
+            process.exit();
+        }
+    }
 }
-else {
-    filesArr.push(options.inputPath);
-}
+
 
 for (var index = 0, length = filesArr.length; index < length; index++) {
     var file = filesArr[index];
@@ -510,13 +525,16 @@ for (var index = 0, length = filesArr.length; index < length; index++) {
     var outputContents = cleanLines.join("\n");
     //save all the contents to the file.
     //if the user didnt choose output path, then the input file is used.
-    if (options.inputPath == options.outputPath) {
+    //  if (options.inputPath == options.outputPath) {
+    if(options.outputPath.length>0)
+    fs.writeFileSync(options.outputPath[0]+"/"+file, outputContents, 'utf8');
+    else
         fs.writeFileSync(file, outputContents, 'utf8');
-    }
+    // }
     //else we have to write to the chosen output file or folder
-    else {
+    //   else {
 
-    }
+    //   }
 
 
 }
