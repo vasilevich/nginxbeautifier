@@ -256,8 +256,8 @@ function join_opening_bracket(lines) {
             //just make sure we don't put anything before 0
             if (i >= 1) {
                 lines[i] = lines[i - 1] + " {";
-                if (NEWLINEAFTERBRACET&&lines.length>(i+1)&&lines[i+1].length>0)
-                    lines.insert(i+1,"");
+                if (NEWLINEAFTERBRACET && lines.length > (i + 1) && lines[i + 1].length > 0)
+                    lines.insert(i + 1, "");
                 lines.remove(i - 1);
             }
         }
@@ -266,7 +266,7 @@ function join_opening_bracket(lines) {
 }
 
 var INDENTATION = '\t';
-var NEWLINEAFTERBRACET=true;
+var NEWLINEAFTERBRACET = true;
 function perform_indentation(lines) {
     var indented_lines, current_indent, line;
     "Indents the lines according to their nesting level determined by curly brackets.";
