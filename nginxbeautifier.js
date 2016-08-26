@@ -300,7 +300,7 @@ var fs = require('fs');
 var path = require('path');
 
 var options = {
-        name: "nginxbeautify",
+        name: "nginxbeautifier",
         spaces: 0,
         tabs: 0,
         dontJoinCurlyBracet: false,
