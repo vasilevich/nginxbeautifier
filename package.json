@@ -5,7 +5,9 @@
   "main": "nginxbeautifier",
   "git": "git@github.com:vasilevich/nginxbeautifier.git",
   "bin": {
-    "nginxbeautifier": "nginxbeautifier"
+  	"nginxbeautifier.js": "nginxbeautifier.js"
+  	,
+    "nginxbeautifier": "nginxbeautifier.js"
   },
   "preferGlobal": true,
   "engines": {
@@ -14,6 +16,9 @@
   "keywords": [
     "nginx",
     "beautifier",
+    "formatter",
+    "prettifier",
+    "pretty",
     "config",
     "server"
   ],
