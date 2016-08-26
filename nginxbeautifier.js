@@ -495,7 +495,7 @@ var filesArr = [];
 
 for (var index=0,length=options.inputPath.length;index<length;index++) {
     if (options.inputPath[index] != "") {
-        if (options.inputPath[index].recursive && fs.statSync(options.inputPath[index].name).isDirectory()) {
+        if ((options.inputPath[index].recursive||options.recursive) && fs.statSync(options.inputPath[index].name).isDirectory()) {
             filesArr = filesArr.concat(walkSync(options.inputPath[index].name, options.extension));
         }
         else if (fs.statSync(options.inputPath[index].name).isFile()) {
