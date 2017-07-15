@@ -473,7 +473,7 @@ if (process.argv.length > 2) {
             }
             else {
                 //its probably a file path
-                knownArguments["-i"](arg);
+                knownArguments["-i"](process.argv[key]);
             }
         }
     }
