@@ -157,19 +157,21 @@ function extractAllPossibleText(input, seperator1, seperator2) {
     if (seperator2 == undefined)
         seperator2 = seperator1;
     var extracted = {};
-    var textInBetween = "";
+    var textInBetween;
     var cnt = 0;
+    var seperator1CharCode = seperator1.charCodeAt(0);
+    var seperator2CharCode = seperator2.charCodeAt(0);
     while ((textInBetween = extractTextBySeperator(input, seperator1, seperator2)) != "") {
-        var placeHolder = "#$#%#$#placeholder" + cnt + "#$#%#$#";
+        var placeHolder = "#$#%#$#placeholder" + cnt + "" + seperator1CharCode + "" + seperator2CharCode + "#$#%#$#";
         extracted[placeHolder] = seperator1 + textInBetween + seperator2;
         input = input.replace(extracted[placeHolder], placeHolder);
         cnt++;
     }
     return {
-        inputHidden: input,
+        filteredInput: input,
         extracted: extracted,
         getRestored: function () {
-            var textToFix = this.inputHidden;
+            var textToFix = this.filteredInput;
             for (var key in extracted) {
                 textToFix = textToFix.replace(key, extracted[key]);
             }
@@ -190,11 +192,11 @@ function strip_line(single_line) {
     //trim the line before and after
     var trimmed = single_line.trim();
     //get text without any quatation marks(text foudn with quatation marks is replaced with a placeholder)
-    var removedQuatations = extractAllPossibleText(trimmed, '"', '"');
+    var removedDoubleQuatations = extractAllPossibleText(trimmed, '"', '"');
     //replace multi spaces with single spaces
-    removedQuatations.inputHidden = removedQuatations.inputHidden.replace(/\s\s+/g, ' ');
+    removedDoubleQuatations.filteredInput = removedDoubleQuatations.filteredInput.replace(/\s\s+/g, ' ');
     //restore anything of quatation marks
-    return removedQuatations.getRestored();
+    return removedDoubleQuatations.getRestored();
 }
 
 
@@ -213,8 +215,8 @@ function clean_lines(configContents) {
         if (!splittedByLines[index].startsWith("#") && splittedByLines[index] != "") {
             newline = 0;
             var line = splittedByLines[index] = strip_line(splittedByLines[index]);
-            if (line != "}" && line != "{") {
-                var i = line.indexOf("}")
+            if (line != "}" && line != "{" && !(line.includes("('{") || line.includes("}')"))) {
+                var i = line.indexOf("}");
                 if (i >= 0) {
                     splittedByLines[index] = strip_line(line.slice(0, i - 1));
                     splittedByLines.insert(index + 1, "}");
@@ -223,7 +225,7 @@ function clean_lines(configContents) {
                         splittedByLines.insert(index + 2, l2);
                     line = splittedByLines[index];
                 }
-                var i = line.indexOf("{")
+                i = line.indexOf("{");
                 if (i >= 0) {
                     splittedByLines[index] = strip_line(line.slice(0, i));
                     splittedByLines.insert(index + 1, "{");
@@ -267,6 +269,7 @@ function join_opening_bracket(lines) {
 
 var INDENTATION = '\t';
 var NEWLINEAFTERBRACET = true;
+
 function perform_indentation(lines) {
     var indented_lines, current_indent, line;
     "Indents the lines according to their nesting level determined by curly brackets.";
@@ -324,7 +327,7 @@ var options = {
         extension: "conf"
 
     }
-    ;
+;
 
 
 var knownArguments = {
@@ -442,7 +445,7 @@ var knownArguments = {
         }
 
     }
-    ;
+;
 //shortcuts
 knownArguments["-h"] = knownArguments["--help"];
 knownArguments["-s"] = knownArguments["--space"];
