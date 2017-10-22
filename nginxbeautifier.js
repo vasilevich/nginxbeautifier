@@ -135,7 +135,6 @@ if (!Array.prototype.insert) {
 function extractTextBySeperator(input, seperator1, seperator2) {
     if (seperator2 == undefined)
         seperator2 = seperator1;
-    var ret = "";
     var seperator1Regex = new RegExp(seperator1);
     var seperator2Regex = new RegExp(seperator2);
     var catchRegex = new RegExp(seperator1 + "(.*?)" + seperator2);
@@ -159,8 +158,8 @@ function extractAllPossibleText(input, seperator1, seperator2) {
     var extracted = {};
     var textInBetween;
     var cnt = 0;
-    var seperator1CharCode = seperator1.charCodeAt(0);
-    var seperator2CharCode = seperator2.charCodeAt(0);
+    var seperator1CharCode = seperator1.length > 0 ? seperator1.charCodeAt(0) : "";
+    var seperator2CharCode = seperator2.length > 0 ? seperator2.charCodeAt(0) : "";
     while ((textInBetween = extractTextBySeperator(input, seperator1, seperator2)) != "") {
         var placeHolder = "#$#%#$#placeholder" + cnt + "" + seperator1CharCode + "" + seperator2CharCode + "#$#%#$#";
         extracted[placeHolder] = seperator1 + textInBetween + seperator2;
@@ -178,8 +177,6 @@ function extractAllPossibleText(input, seperator1, seperator2) {
             return textToFix;
         }
     };
-
-
 }
 
 
