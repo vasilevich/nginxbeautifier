@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/nginxbeautifier.svg)](https://www.npmjs.com/package/nginxbeautifier)
 # *nginx* config file formatter and beautifier
 This Javascript script beautifies and formats Nginx configuration files like so:
 
@@ -17,12 +18,12 @@ This project can be used directly at:
 # Installation
 [NodeJS is needed to run this program](https://nodejs.org/en/download/package-manager/).
 ## You can install nginxbeautifier using one of the ways below:
-### From AUR
-#### Using pacaur
+### From [AUR](https://aur.archlinux.org/packages/nginxbeautifier)
+#### Using [pacaur](https://aur.archlinux.org/packages/pacaur) ([or any other way from AUR repository](https://wiki.archlinux.org/index.php/Arch_User_Repository))
 ```
 pacaur -S nginxbeautifier
 ```
-### From NPM repository
+### From [NPM](https://www.npmjs.com/package/nginxbeautifier) repository
 ```
 npm install -G nginxbeautifier
 ```
@@ -66,3 +67,7 @@ some methods were rewritten or changed a bit, but most of the code follows their
 
 ## Notes:
 I am keeping the same licenese format as the one that was given by the owner of the project the code was ported from: [Apache 2.0](https://github.com/vasilevich/nginxbeautifier/blob/master/LICENSE).
+
+
+## Additional related projects you may find interesting:
+[nginxbeautify](https://github.com/denysvitali/nginxbeautify) - derived from this project, and much improved, by adding modularity and much more, by [Denys Vitali](https://github.com/denysvitali), you should check it out!  
