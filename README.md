@@ -25,7 +25,7 @@ pacaur -S nginxbeautifier
 ```
 ### From [NPM](https://www.npmjs.com/package/nginxbeautifier) repository
 ```
-npm install -G nginxbeautifier
+npm install -g nginxbeautifier
 ```
 ### Directly from source
 simpley clone our repository and copy the executable to your /usr/bin so you can use it anywhere on the system(unix only).
