@@ -289,6 +289,39 @@ function perform_indentation(lines) {
     return indented_lines;
 }
 
+function perform_alignment(lines) {
+    var all_lines = [], attribute_lines = [], iterator1 = lines, line, minAlignColumn = 0;
+    for (let index1 = 0; index1 < iterator1.length; index1++) {
+        line = iterator1[index1];
+        if (line !== "" && 
+        !line.endsWith("{") && 
+        !line.startsWith("#") && 
+        !line.endsWith("}") &&
+        !line.trim().startsWith("upstream") &&
+        !line.trim().contains("location")) {
+            const splitLine = line.match(/\S+/g);
+            if (splitLine.length > 1) {
+                attribute_lines.push(line);
+                const columnAtAttrValue = line.indexOf(splitLine[1])+1;
+                if (minAlignColumn < columnAtAttrValue) {
+                    minAlignColumn = columnAtAttrValue;
+                }
+            }
+        } 
+        all_lines.push(line);
+    }
+    for (let index1 = 0; index1 < all_lines.length; index1++) {
+        line = all_lines[index1];
+        if (attribute_lines.includes(line)) {
+            const split = line.match(/\S+/g);
+            const indent = line.match(/\s+/g)[0];
+            line = indent + split[0] + " ".repeat(minAlignColumn - split[0].length - indent.length) + split.slice(1, split.length).join(" ");
+            all_lines[index1] = line;
+        }
+    }
+
+    return all_lines;
+}
 
 /**nodejs relevant**/
 // List all files in a directory in Node.js recursively in a synchronous fashion
