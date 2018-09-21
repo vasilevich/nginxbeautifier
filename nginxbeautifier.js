@@ -293,21 +293,21 @@ function perform_alignment(lines) {
     var all_lines = [], attribute_lines = [], iterator1 = lines, line, minAlignColumn = 0;
     for (let index1 = 0; index1 < iterator1.length; index1++) {
         line = iterator1[index1];
-        if (line !== "" && 
-        !line.endsWith("{") && 
-        !line.startsWith("#") && 
-        !line.endsWith("}") &&
-        !line.trim().startsWith("upstream") &&
-        !line.trim().contains("location")) {
+        if (line !== "" &&
+            !line.endsWith("{") &&
+            !line.startsWith("#") &&
+            !line.endsWith("}") &&
+            !line.trim().startsWith("upstream") &&
+            !line.trim().contains("location")) {
             const splitLine = line.match(/\S+/g);
             if (splitLine.length > 1) {
                 attribute_lines.push(line);
-                const columnAtAttrValue = line.indexOf(splitLine[1])+1;
+                const columnAtAttrValue = line.indexOf(splitLine[1]) + 1;
                 if (minAlignColumn < columnAtAttrValue) {
                     minAlignColumn = columnAtAttrValue;
                 }
             }
-        } 
+        }
         all_lines.push(line);
     }
     for (let index1 = 0; index1 < all_lines.length; index1++) {
@@ -356,9 +356,7 @@ var options = {
         inputPath: [],
         outputPath: [],
         extension: "conf"
-
-    }
-;
+};
 
 
 var knownArguments = {
