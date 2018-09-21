@@ -318,6 +318,7 @@ var options = {
         tabs: 0,
         dontJoinCurlyBracet: false,
         trailingBlankLines: false,
+        align: false,
         recursive: false,
         inputPath: [],
         outputPath: [],
@@ -402,6 +403,12 @@ var knownArguments = {
             options.dontJoinCurlyBracet = true;
         }
         ,
+        "--align": function (input) {
+            if (input == "desc")
+                return "if set to true, all applicable attribute values will be vertically aligned with each other";
+            options.align = true;
+        }
+        ,
         "--recursive": function (input) {
             if (input == "desc")
                 return "scan the whole current folder, and all sub folders recursively.";
@@ -458,6 +465,7 @@ knownArguments["-o"] = knownArguments["--output"];
 knownArguments["-bl"] = knownArguments["--blank-lines"];
 knownArguments["--dontjoin"] = knownArguments["--dont-join"];
 knownArguments["-dj"] = knownArguments["--dont-join"];
+knownArguments["-a"] = knownArguments["--align"];
 knownArguments["-ext"] = knownArguments["--extension"];
 knownArguments["-e"] = knownArguments["--extension"];
 var wasFunc = null;
@@ -537,8 +545,13 @@ for (var index = 0, length = filesArr.length; index < length; index++) {
     //join opening bracket(if user wishes so) true by default
     if (!options.dontJoinCurlyBracet)
         cleanLines = join_opening_bracket(cleanLines);
-    //perform the final indentation
-    cleanLines = perform_indentation(cleanLines);
+    //perform the indentation
+    cleanLines = perform_indentation(cleanLines);    
+    // vertically align all eligible declarations
+    if (options.align) {
+        cleanLines = perform_alignment(cleanLines);
+    }
+
     //combine all the lines back together
     var outputContents = cleanLines.join("\n");
     //save all the contents to the file.
