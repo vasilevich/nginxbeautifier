@@ -255,7 +255,7 @@ function join_opening_bracket(lines) {
             //just make sure we don't put anything before 0
             if (i >= 1) {
                 lines[i] = lines[i - 1] + " {";
-                if (NEWLINEAFTERBRACET && lines.length > (i + 1) && lines[i + 1].length > 0)
+                if (options.trailingBlankLines && lines.length > (i + 1) && lines[i + 1].length > 0)
                     lines.insert(i + 1, "");
                 lines.remove(i - 1);
             }
@@ -265,7 +265,6 @@ function join_opening_bracket(lines) {
 }
 
 var INDENTATION = '\t';
-var NEWLINEAFTERBRACET = true;
 
 function perform_indentation(lines) {
     var indented_lines, current_indent, line;
@@ -352,6 +351,7 @@ var options = {
         tabs: 0,
         dontJoinCurlyBracet: false,
         align: false,
+        trailingBlankLines: false,
         recursive: false,
         inputPath: [],
         outputPath: [],
@@ -423,6 +423,11 @@ var knownArguments = {
             options.tabs = parseInt(number);
             INDENTATION = "\t".repeat(options.tabs);
         },
+        "--blank-lines": function (input) {
+            if (input == "desc") 
+                return "if set to true, an empty line will be inserted after opening brackets";
+            options.trailingBlankLines = true;
+        },
         "--dont-join": function (input) {
             if (input == "desc")
                 return "if set to true, commands such as 'server' and '{' will be on a seperate line, false by default ('server {' )";
@@ -488,6 +493,7 @@ knownArguments["-t"] = knownArguments["--tabs"];
 knownArguments["-r"] = knownArguments["--recursive"];
 knownArguments["-i"] = knownArguments["--input"];
 knownArguments["-o"] = knownArguments["--output"];
+knownArguments["-bl"] = knownArguments["--blank-lines"];
 knownArguments["--dontjoin"] = knownArguments["--dont-join"];
 knownArguments["-dj"] = knownArguments["--dont-join"];
 knownArguments["-a"] = knownArguments["--align"];
