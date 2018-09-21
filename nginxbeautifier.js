@@ -289,6 +289,39 @@ function perform_indentation(lines) {
     return indented_lines;
 }
 
+function perform_alignment(lines) {
+    var all_lines = [], attribute_lines = [], iterator1 = lines, line, minAlignColumn = 0;
+    for (let index1 = 0; index1 < iterator1.length; index1++) {
+        line = iterator1[index1];
+        if (line !== "" &&
+            !line.endsWith("{") &&
+            !line.startsWith("#") &&
+            !line.endsWith("}") &&
+            !line.trim().startsWith("upstream") &&
+            !line.trim().contains("location")) {
+            const splitLine = line.match(/\S+/g);
+            if (splitLine.length > 1) {
+                attribute_lines.push(line);
+                const columnAtAttrValue = line.indexOf(splitLine[1]) + 1;
+                if (minAlignColumn < columnAtAttrValue) {
+                    minAlignColumn = columnAtAttrValue;
+                }
+            }
+        }
+        all_lines.push(line);
+    }
+    for (let index1 = 0; index1 < all_lines.length; index1++) {
+        line = all_lines[index1];
+        if (attribute_lines.includes(line)) {
+            const split = line.match(/\S+/g);
+            const indent = line.match(/\s+/g)[0];
+            line = indent + split[0] + " ".repeat(minAlignColumn - split[0].length - indent.length) + split.slice(1, split.length).join(" ");
+            all_lines[index1] = line;
+        }
+    }
+
+    return all_lines;
+}
 
 /**nodejs relevant**/
 // List all files in a directory in Node.js recursively in a synchronous fashion
@@ -317,14 +350,13 @@ var options = {
         spaces: 0,
         tabs: 0,
         dontJoinCurlyBracet: false,
+        align: false,
         trailingBlankLines: false,
         recursive: false,
         inputPath: [],
         outputPath: [],
         extension: "conf"
-
-    }
-;
+};
 
 
 var knownArguments = {
@@ -402,6 +434,12 @@ var knownArguments = {
             options.dontJoinCurlyBracet = true;
         }
         ,
+        "--align": function (input) {
+            if (input == "desc")
+                return "if set to true, all applicable attribute values will be vertically aligned with each other";
+            options.align = true;
+        }
+        ,
         "--recursive": function (input) {
             if (input == "desc")
                 return "scan the whole current folder, and all sub folders recursively.";
@@ -458,6 +496,7 @@ knownArguments["-o"] = knownArguments["--output"];
 knownArguments["-bl"] = knownArguments["--blank-lines"];
 knownArguments["--dontjoin"] = knownArguments["--dont-join"];
 knownArguments["-dj"] = knownArguments["--dont-join"];
+knownArguments["-a"] = knownArguments["--align"];
 knownArguments["-ext"] = knownArguments["--extension"];
 knownArguments["-e"] = knownArguments["--extension"];
 var wasFunc = null;
@@ -537,8 +576,13 @@ for (var index = 0, length = filesArr.length; index < length; index++) {
     //join opening bracket(if user wishes so) true by default
     if (!options.dontJoinCurlyBracet)
         cleanLines = join_opening_bracket(cleanLines);
-    //perform the final indentation
-    cleanLines = perform_indentation(cleanLines);
+    //perform the indentation
+    cleanLines = perform_indentation(cleanLines);    
+    // vertically align all eligible declarations
+    if (options.align) {
+        cleanLines = perform_alignment(cleanLines);
+    }
+
     //combine all the lines back together
     var outputContents = cleanLines.join("\n");
     //save all the contents to the file.
