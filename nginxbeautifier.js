@@ -357,7 +357,7 @@ function modifyOptions(inputOptions) {
     }
 }
 
-if (module) {
+if (typeof module != "undefined") {
     module.exports = {
         walkSync,
         perform_alignment,
