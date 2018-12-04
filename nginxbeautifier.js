@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Ported by Yosef on 24/08/2016.
  * from project:

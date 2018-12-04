@@ -1,18 +1,4 @@
 #!/usr/bin/env node
-/**
- * Ported by Yosef on 24/08/2016.
- * from project:
- *  https://github.com/1connect/nginx-config-formatter
- * from file:
- * nginxfmt.py
- *
- */
-
-/**
- POLYFILLS START
- not required in nodejs
- */
-
 var nginxBeautifier = require("./nginxbeautifier.js");
 //define nodejs modules
 var fs = require('fs');
