@@ -1,6 +1,6 @@
 {
   "name": "nginxbeautifier",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Nginx Configuration Beautifier",
   "main": "nginxbeautifier.js",
   "git": "git@github.com:vasilevich/nginxbeautifier.git",
