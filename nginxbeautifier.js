@@ -189,8 +189,10 @@ function strip_line(single_line) {
     var trimmed = single_line.trim();
     //get text without any quatation marks(text foudn with quatation marks is replaced with a placeholder)
     var removedDoubleQuatations = extractAllPossibleText(trimmed, '"', '"');
-    //replace multi spaces with single spaces
-    removedDoubleQuatations.filteredInput = removedDoubleQuatations.filteredInput.replace(/\s\s+/g, ' ');
+    //replace multi spaces with single spaces, but skip in sub_filter directive
+    if(!removedDoubleQuatations.filteredInput.includes('sub_filter')) {
+        removedDoubleQuatations.filteredInput = removedDoubleQuatations.filteredInput.replace(/\s\s+/g, ' ');
+    }
     //restore anything of quatation marks
     return removedDoubleQuatations.getRestored();
 }
