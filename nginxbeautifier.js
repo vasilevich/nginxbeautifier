@@ -44,7 +44,8 @@ if (!String.prototype.includes) {
 
         if (start + search.length > this.length) {
             return false;
-        } else {
+        }
+        else {
             return this.indexOf(search, start) !== -1;
         }
     };
@@ -139,7 +140,8 @@ function extractTextBySeperator(input, seperator1, seperator2) {
     var catchRegex = new RegExp(seperator1 + "(.*?)" + seperator2);
     if (seperator1Regex.test(input) && seperator2Regex.test(input)) {
         return input.match(catchRegex)[1];
-    } else {
+    }
+    else {
         return "";
     }
 }
@@ -190,7 +192,7 @@ function strip_line(single_line) {
     //get text without any quatation marks(text foudn with quatation marks is replaced with a placeholder)
     var removedDoubleQuatations = extractAllPossibleText(trimmed, '"', '"');
     //replace multi spaces with single spaces, but skip in sub_filter directive
-    if(!removedDoubleQuatations.filteredInput.includes('sub_filter')) {
+    if (!removedDoubleQuatations.filteredInput.includes('sub_filter')) {
         removedDoubleQuatations.filteredInput = removedDoubleQuatations.filteredInput.replace(/\s\s+/g, ' ');
     }
     //restore anything of quatation marks
@@ -213,7 +215,7 @@ function clean_lines(configContents) {
         if (!splittedByLines[index].startsWith("#") && splittedByLines[index] != "") {
             newline = 0;
             var line = splittedByLines[index] = strip_line(splittedByLines[index]);
-            if (line != "}" && line != "{" && !(line.includes("('{") || line.includes("}')"))) {
+            if (line != "}" && line != "{" && !(line.includes("('{") || line.includes("}')") || line.includes("'{'") || line.includes("'}'"))) {
                 var startOfComment = line.indexOf("#");
                 var comment = startOfComment >= 0 ? line.slice(startOfComment) : "";
                 var code = startOfComment >= 0 ? line.slice(0, startOfComment) : line;
@@ -287,7 +289,8 @@ function perform_indentation(lines) {
         }
         if (line !== "") {
             indented_lines.push(options.INDENTATION.repeat(current_indent) + line);
-        } else {
+        }
+        else {
             indented_lines.push("");
         }
         if (!line.startsWith("#") && line.endsWith("{")) {
