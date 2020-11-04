@@ -8,9 +8,6 @@ This Javascript script beautifies and formats Nginx configuration files like so:
 * whitespaces are collapsed, except in comments an quotation marks
 
 # Where
-### From our website
-This project can be used directly at:
-[nginxbeautifier.com](http://nginxbeautifier.com)
 ### From the NPM repository
 [Please see Installation section below](#Installation_14).
 ### From the Arch-AUR repository
