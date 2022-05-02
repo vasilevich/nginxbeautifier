@@ -219,6 +219,10 @@ function clean_lines(configContents) {
                 var startOfComment = line.indexOf("#");
                 var comment = startOfComment >= 0 ? line.slice(startOfComment) : "";
                 var code = startOfComment >= 0 ? line.slice(0, startOfComment) : line;
+
+                var removedDoubleQuatations = extractAllPossibleText(code, '"', '"');
+                code = removedDoubleQuatations.filteredInput;
+
                 var startOfParanthesis = code.indexOf("}");
                 if (startOfParanthesis >= 0) {
                     if (startOfParanthesis > 0) {
@@ -239,7 +243,10 @@ function clean_lines(configContents) {
                         splittedByLines.insert(index + 2, l2);
 
                 }
-                line = code;
+
+                removedDoubleQuatations.filteredInput = splittedByLines[index];
+                line = removedDoubleQuatations.getRestored();
+                splittedByLines[index] = line;
             }
         }
         //remove more than two newlines
@@ -251,7 +258,6 @@ function clean_lines(configContents) {
 
             }
         }
-
     }
     return splittedByLines;
 }
