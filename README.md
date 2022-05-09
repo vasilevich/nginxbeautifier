@@ -31,7 +31,9 @@ git clone https://github.com/vasilevich/nginxbeautifier
 cp nginxbeautifier/nginxbeautifier.js /usr/bin/nginxbeautifier
 ```
 
-# How to use
+# Usage
+
+```
 Usage: nginxbeautifier [OPTION]... [FILE]...  
 Description: Formats nginx conf files into a more readable format by re-indenting the lines.  
   
@@ -43,17 +45,19 @@ Mandatory arguments to long options are mandatory for short options too, Argumen
 -r, --recursive,  scan the whole current folder, and all sub folders recursively.  
 -i, --input,  The file to input, is optional if you provide a path after all the arguments.  
 -o, --output,  The file to output to, is optional if you provide a path after all the arguments.  
--e, -ext, --extension,  The extension of the config file to look for(.conf by default).  
+-e, -ext, --extension,  The extension of the config file to look for (.conf by default).  
+```
   
-## Usage examples:
-(1)>nginxbeautifier -s 4 -r sites-enabled/  
-(2)>nginxbeautifier -s 4 -r /etc/nginx/sites-enabled/  
-(3)>nginxbeautifier -s 4 -i /etc/nginx/sites-enabled/site.conf -o /etc/nginx/sites-enabled/newSite.conf  
-(4)>nginxbeautifier -s 4 -i /etc/nginx/sites-enabled/site.conf  
-(5)>nginxbeautifier -s 4 -i /etc/nginx/sites-enabled/*  
-(6)>nginxbeautifier -t 4 -i /etc/nginx/sites-enabled/*  
-(7)>nginxbeautifier -t 4 /etc/nginx/sites-enabled/*  
-(8)>nginxbeautifier -t 4 -i /etc/nginx/sites-enabled/* -o /etc/nginx/new-sites-enabled/* 
+## Usage Examples:
+
+* `nginxbeautifier -s 4 -r sites-enabled/`
+* `nginxbeautifier -s 4 -r /etc/nginx/sites-enabled/`
+* `nginxbeautifier -s 4 -i /etc/nginx/sites-enabled/site.conf -o /etc/nginx/sites-enabled/newSite.conf`
+* `nginxbeautifier -s 4 -i /etc/nginx/sites-enabled/site.conf`
+* `nginxbeautifier -s 4 -i /etc/nginx/sites-enabled/*`
+* `nginxbeautifier -t 4 -i /etc/nginx/sites-enabled/*`
+* `nginxbeautifier -t 4 /etc/nginx/sites-enabled/*`
+* `nginxbeautifier -t 4 -i /etc/nginx/sites-enabled/* -o /etc/nginx/new-sites-enabled/*`
 
 
 ## Credits
