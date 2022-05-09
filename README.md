@@ -7,11 +7,6 @@ This Javascript script beautifies and formats Nginx configuration files like so:
 * curly braces placement follows Java convention
 * whitespaces are collapsed, except in comments an quotation marks
 
-# Where
-### From the NPM repository
-[Please see Installation section below](#Installation_14).
-### From the Arch-AUR repository
-[Please see Installation section below](#Installation_14).
 # Installation
 [NodeJS is needed to run this program](https://nodejs.org/en/download/package-manager/).
 ## You can install nginxbeautifier using one of the ways below:
