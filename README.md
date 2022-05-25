@@ -1,11 +1,11 @@
 [![npm version](https://badge.fury.io/js/nginxbeautifier.svg)](https://www.npmjs.com/package/nginxbeautifier)
 # *nginx* config file formatter and beautifier
-This Javascript script beautifies and formats Nginx configuration files like so:
+This Javascript script beautifies and formats Nginx configuration files so that:
 
-* all lines are indented in uniform manner, with 4 spaces per level
+* all lines are indented in an uniform manner, with 4 spaces per level
 * neighbouring empty lines are collapsed to at most two empty lines
 * curly braces placement follows Java convention
-* whitespaces are collapsed, except in comments an quotation marks
+* whitespaces are collapsed, except in comments and quotation marks
 
 # Installation
 [NodeJS is needed to run this program](https://nodejs.org/en/download/package-manager/).
