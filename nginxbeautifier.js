@@ -290,7 +290,7 @@ function perform_indentation(lines) {
     var iterator1 = lines;
     for (var index1 = 0; index1 < iterator1.length; index1++) {
         line = iterator1[index1];
-        if (!line.startsWith("#") && line.endsWith("}") && current_indent > 0) {
+        if (!line.startsWith("#") && /.*?\}(\s*#.*)?$/.test(line) && current_indent > 0) {
             current_indent -= 1;
         }
         if (line !== "") {
@@ -299,7 +299,7 @@ function perform_indentation(lines) {
         else {
             indented_lines.push("");
         }
-        if (!line.startsWith("#") && line.endsWith("{")) {
+        if (!line.startsWith("#") && /.*?\{(\s*#.*)?$/.test(line)) {
             current_indent += 1;
         }
     }
@@ -311,9 +311,9 @@ function perform_alignment(lines) {
     for (let index1 = 0; index1 < iterator1.length; index1++) {
         line = iterator1[index1];
         if (line !== "" &&
-            !line.endsWith("{") &&
+            !/.*?\{(\s*#.*)?$/.test(line) &&
             !line.startsWith("#") &&
-            !line.endsWith("}") &&
+            !/.*?\}(\s*#.*)?$/.test(line) &&
             !line.trim().startsWith("upstream") &&
             !line.trim().contains("location")) {
             const splitLine = line.match(/\S+/g);
